@@ -1,21 +1,23 @@
 package model;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Peminjaman {
-    private String idpeminjaman;
+    private String idPeminjaman;
     private Member member;
     private Buku buku;
     private LocalDate tanggalPinjam;
     private LocalDate tanggalKembali;
+    private LocalDate tanggalPengembalianAktual;
     private StatusPeminjaman status;
 
     public enum StatusPeminjaman {
         DIPINJAM, DIKEMBALIKAN, TERLAMBAT
     }
 
-    public Peminjaman(String idpeminjaman, Member member, Buku buku, LocalDate tanggalPinjam, LocalDate tanggalKembali, StatusPeminjaman status) {
-        this.idpeminjaman = idpeminjaman;
+    public Peminjaman(String idPeminjaman, Member member, Buku buku, LocalDate tanggalPinjam, LocalDate tanggalKembali, StatusPeminjaman status) {
+        this.idPeminjaman = idPeminjaman;
         this.member = member;
         this.buku = buku;
         this.tanggalPinjam = tanggalPinjam;
@@ -23,12 +25,42 @@ public class Peminjaman {
         this.status = status;
     }
 
-    public String getIdpeminjaman() {
-        return idpeminjaman;
+    
+    public void setTanggalPengembalianAktual(LocalDate tanggalPengembalianAktual) {
+        this.tanggalPengembalianAktual = tanggalPengembalianAktual;
     }
 
-    public void setIdpeminjaman(String idpeminjaman) {
-        this.idpeminjaman = idpeminjaman;
+    public void setStatus(StatusPeminjaman status) {
+        this.status = status;
+    }
+
+    public Peminjaman(String idPeminjaman, Member member, Buku buku, LocalDate tanggalPinjam) {
+        this.idPeminjaman = idPeminjaman;
+        this.member = member;
+        this.buku = buku;
+        this.tanggalPinjam = tanggalPinjam;
+    }
+
+
+    @Override
+    public String toString() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        String tglPengembalianStr = (tanggalPengembalianAktual != null) ? tanggalPengembalianAktual.format(formatter) : "Belum Dikembalikan";
+        return "ID Peminjaman : " + idPeminjaman + "\n" +
+                "Member        : " + member.getNama() + " (ID: " + member.getIdMember() + ")\n" +
+                "Buku          : " + buku.getJudul() + " (ID: " + buku.getIdBuku() + ")\n" +
+                "Tgl Pinjam    : " + tanggalPinjam.format(formatter) + "\n" +
+                "Tgl Jatuh Tempo: " + tanggalKembali.format(formatter) + "\n" +
+                "Tgl Kembali   : " + tglPengembalianStr + "\n" +
+                "Status        : " + status;
+    }
+
+    public String getIdPeminjaman() {
+        return idPeminjaman;
+    }
+
+    public void setIdPeminjaman(String idPeminjaman) {
+        this.idPeminjaman = idPeminjaman;
     }
 
     public Member getMember() {
@@ -63,11 +95,13 @@ public class Peminjaman {
         this.tanggalKembali = tanggalKembali;
     }
 
+    public LocalDate getTanggalPengembalianAktual() {
+        return tanggalPengembalianAktual;
+    }
+
     public StatusPeminjaman getStatus() {
         return status;
     }
 
-    public void setStatus(StatusPeminjaman status) {
-        this.status = status;
-    }
+    
 }

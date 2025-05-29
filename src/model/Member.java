@@ -44,4 +44,12 @@ public class Member {
     public void setNoTelp(String noTelp) {
         this.noTelp = noTelp;
     }
+
+    @Override
+    public String toString() {
+        return "ID Member   : " + idMember + "\n" +
+                "Nama        : " + nama + "\n" +
+                "Alamat      : " + alamat + "\n" +
+                "No. Telepon : " + noTelp;
+    }
 }
